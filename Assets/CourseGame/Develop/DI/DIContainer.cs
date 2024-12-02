@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Assets.CourceGame.Develop.DI
 {
-    public class DIContainer : IDisposable
+    public class DIContainer
     {
         private readonly Dictionary<Type, Registration> _container = new();
         private readonly DIContainer _parent;
@@ -53,7 +53,7 @@ namespace Assets.CourceGame.Develop.DI
         {
             foreach( Registration registration in _container.Values)
             {
-                if (registration.Instance == null && registration.IsNonLazy)
+                if (registration.Instance == null)
                     registration.Instance = registration.Creator(this);
 
                 if(registration.Instance != null)
@@ -70,27 +70,13 @@ namespace Assets.CourceGame.Develop.DI
             return (T)registration.Instance;
         }
 
-        public void Dispose()
-        {
-            foreach(Registration registration in _container.Values)
-            {
-                if (registration.Instance != null)
-                    if(registration.Instance is IDisposable disposable)
-                        disposable.Dispose();
-            }
-        }
-
         public class Registration
         {
             public Func<DIContainer, object> Creator { get; }
-            public object Instance { get; set; }
-            public bool IsNonLazy {  get; private set; }
 
-            public Registration(object instance) => Instance = instance;
+            public object Instance { get; set; }
 
             public Registration(Func<DIContainer, object> creator) => Creator = creator;
-
-            public void NonLazy() => IsNonLazy = true;
         }
     }
 }

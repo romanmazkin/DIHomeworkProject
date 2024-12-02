@@ -85,6 +85,9 @@ namespace Assets.CourseGame.Develop.CommonServices.SceneManagement
                 case MainMenuInputArgs mainMenuInputArgs:
                     yield return ProcessSwitchToMainMenuScene(mainMenuInputArgs);
                     break;
+                case GameplayInputArgs gameplayInputArgs:
+                    yield return ProcessSwitchToGameplayScene(gameplayInputArgs);
+                    break;
 
                 default:
                     throw new ArgumentException(ErrorSceneTransicionMessage);
@@ -94,8 +97,6 @@ namespace Assets.CourseGame.Develop.CommonServices.SceneManagement
         private IEnumerator ProcessSwitchToMainMenuScene(MainMenuInputArgs mainMenuInputArgs)
         {
             _loadingCurrtain.Show();
-
-            _currentSceneContainer?.Dispose();
 
             yield return _sceneLoader.LoadAsync(SceneID.Empty);
             yield return _sceneLoader.LoadAsync(SceneID.MainMenu);
@@ -115,8 +116,6 @@ namespace Assets.CourseGame.Develop.CommonServices.SceneManagement
         private IEnumerator ProcessSwitchToGameplayScene(GameplayInputArgs gameplayInputArgs)
         {
             _loadingCurrtain.Show();
-
-            _currentSceneContainer?.Dispose();
 
             yield return _sceneLoader.LoadAsync(SceneID.Empty);
             yield return _sceneLoader.LoadAsync(SceneID.Gameplay);

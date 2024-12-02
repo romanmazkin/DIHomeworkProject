@@ -9,6 +9,7 @@ namespace Assets.CourseGame.Develop.CommonServices.CoroutinePerformer
         {
             DontDestroyOnLoad(this);
         }
+
         public Coroutine StartPerform(IEnumerator coroutineFunction) => StartCoroutine(coroutineFunction);
 
         public void StopPerform(Coroutine coroutine) => StopCoroutine(coroutine);
